@@ -1,0 +1,27 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+
+    leds {
+        compatible = "gpio-leds";
+        onboard_led: led_ready {
+            gpios = <&gpio0 13 ( GPIO_ACTIVE_HIGH) > ;
+        };
+    };
+    buttons {
+        compatible = "gpio-keys";
+        button0: button_0 {
+     	    gpios = < &gpio0 22 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH) >;
+     	    label = "button 0";
+   	    };
+    };
+    aliases {
+        led0 = &onboard_led;
+    };
+    zephyr,user {
+        buttons = <&button0>;
+        ready-led = <&onboard_led>;
+    };
+};
+
