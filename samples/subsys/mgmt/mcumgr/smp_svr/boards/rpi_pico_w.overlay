@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2025 Beechwoods Software Inc.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "rpi_pico.overlay"
+
+/delete-node/ &code_partition;
+/delete-node/ &storage_partition;
+
+#include <raspberrypi/partitions_2M_sysbuild.dtsi>
+
+/ {
+    chosen {
+        /delete-node/ zephyr,code-partition;
+        zephyr,code-partition = &slot0_partition;
+    };
+};
+
