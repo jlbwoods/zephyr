@@ -30,14 +30,6 @@ manifest:
   # Please add items below based on alphabetical order
   # zephyr-keep-sorted-start re(^\s+\- name:)
   projects:
-    # Golioth repository.
-    # To ensure that default Kconfig values are propagated correctly, place the golioth entry first in your west manifest.
-    - name: golioth
-      path: modules/lib/golioth-firmware-sdk
-      revision: v0.17.0
-      url: https://github.com/golioth/golioth-firmware-sdk.git
-      submodules: true
-
     - name: acpica
       revision: 8d24867bc9c9d81c81eeac59391cda59333affd4
       path: modules/lib/acpica
