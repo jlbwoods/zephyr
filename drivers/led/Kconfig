@@ -26,6 +26,8 @@ config LED_SHELL
 	help
 	  Enable LED shell for testing.
 
+# zephyr-keep-sorted-start
+source "drivers/led/Kconfig.airoc"
 source "drivers/led/Kconfig.gpio"
 source "drivers/led/Kconfig.ht16k33"
 source "drivers/led/Kconfig.is31fl3216a"
