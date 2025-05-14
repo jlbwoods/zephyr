@@ -1,0 +1,21 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright (c) 2025 Beechwoods Software, Inc.
+ */
+
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+     aliases {
+             led0 = &led_green;
+     };
+
+     leds {
+	     compatible = "gpio-leds";
+             led_green: led_0 {
+                     gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
+             };
+     };
+};
+
