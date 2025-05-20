@@ -12,6 +12,7 @@
 
 #include <zephyr/dt-bindings/i2c/i2c.h>
 
+#include <raspberrypi/partitions_2M_default.dtsi>
 
 / {
 	chosen {
