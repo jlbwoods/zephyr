@@ -1,0 +1,9 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+config LED_CYW43439
+	bool "CYW43439 LED driver"
+	depends on MFD_CYW43439
+	help
+	  Enable LED driver for CYW43439 GPIO-controlled LEDs.
+	  Used for onboard LED on Pico W and Pico 2 W.

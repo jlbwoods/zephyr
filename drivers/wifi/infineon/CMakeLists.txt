@@ -11,6 +11,9 @@ zephyr_library_sources_ifdef(CONFIG_WIFI_AIROC
 zephyr_library_sources_ifdef(CONFIG_AIROC_WIFI_BUS_SDIO airoc_whd_hal_sdio.c)
 zephyr_library_sources_ifdef(CONFIG_AIROC_WIFI_BUS_SPI airoc_whd_hal_spi.c)
 
+# Add MFD wrapper if MFD driver is enabled (overrides whd_bus_spi_transfer)
+zephyr_library_sources_ifdef(CONFIG_MFD_CYW43439 airoc_wifi_mfd.c)
+
 zephyr_compile_definitions(CYBSP_WIFI_CAPABLE)
 zephyr_compile_definitions(CY_RTOS_AWARE)
 zephyr_compile_definitions(WHD_USE_CUSTOM_MALLOC_IMPL)

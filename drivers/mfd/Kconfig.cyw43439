@@ -1,0 +1,9 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+config MFD_CYW43439
+	bool "Infineon CYW43439 WiFi/BT MFD driver"
+	depends on SPI
+	help
+	  Enable MFD driver for Infineon CYW43439 WiFi/Bluetooth chip.
+	  This chip is used on Raspberry Pi Pico W and Pico 2 W boards.

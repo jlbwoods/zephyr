@@ -1,0 +1,34 @@
+/*
+ * MFD overlay for Pico 2 W - LED only
+ */
+
+&pio0_spi0 {
+	/delete-node/ airoc-wifi@0;
+	
+	cyw43439: cyw43439@0 {
+		compatible = "infineon,cyw43439";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		wifi-reg-on-gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+		wifi-host-wake-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		bus-select-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		
+		cyw43439_led: led {
+			compatible = "infineon,cyw43439-led";
+			gpios = <0>;
+			status = "okay";
+		};
+		
+		/* WiFi uses original airoc-wifi compatible */
+		cyw43439_wifi: airoc-wifi {
+			compatible = "infineon,airoc-wifi";
+			status = "okay";
+		};
+	};
+};
+
+/ {
+	aliases {
+		led0 = &cyw43439_led;
+	};
+};

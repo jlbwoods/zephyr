@@ -1,0 +1,11 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+description: CYW43439 Bluetooth child device
+
+compatible: "infineon,cyw43439-bt"
+
+properties:
+  status:
+    type: string
+    description: Device status (okay/disabled)

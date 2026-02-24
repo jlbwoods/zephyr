@@ -22,6 +22,13 @@
 
 #define DT_DRV_COMPAT infineon_airoc_wifi
 
+/* Support both original airoc-wifi and MFD child nodes */
+#if DT_HAS_COMPAT_STATUS_OKAY(infineon_cyw43439_wifi)
+#define AIROC_WIFI_MFD_MODE 1
+#else
+#define AIROC_WIFI_MFD_MODE 0
+#endif
+
 #if DT_PROP(DT_DRV_INST(0), spi_data_irq_shared)
 #define SPI_DATA_IRQ_SHARED
 #include <zephyr/drivers/pinctrl.h>

@@ -1,0 +1,8 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+description: CYW43439 WiFi child device (MFD-aware)
+
+compatible: "infineon,cyw43439-wifi"
+
+on-bus: cyw43439

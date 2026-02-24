@@ -1,0 +1,65 @@
+/*
+ * Raspberry Pi Pico W with MFD driver
+ * Copyright (c) 2026 Beechwoods Software
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include "rpi_pico-common.dtsi"
+
+&pinctrl {
+	pio0_spi0_default: pio0_spi0_default {
+		group1 {
+			pinmux = <PIO0_P29>;
+		};
+	};
+};
+
+&pio0 {
+	status = "okay";
+
+	pio0_spi0: pio0_spi0 {
+		compatible = "raspberrypi,pico-spi-pio";
+		clocks = <&clocks RPI_PICO_CLKID_CLK_SYS>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		cs-gpios = <&gpio0 25 GPIO_ACTIVE_LOW>;
+		clk-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+		sio-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		pinctrl-0 = <&pio0_spi0_default>;
+		pinctrl-names = "default";
+		status = "okay";
+
+		cyw43439: cyw43439@0 {
+			compatible = "infineon,cyw43439";
+			reg = <0>;
+			spi-max-frequency = <10000000>;
+			wifi-reg-on-gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+			wifi-host-wake-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			bus-select-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			
+			cyw43439_led: led {
+				compatible = "infineon,cyw43439-led";
+				gpios = <0>;
+				status = "okay";
+			};
+			
+			cyw43439_wifi: wifi {
+				compatible = "infineon,cyw43439-wifi";
+				status = "okay";
+			};
+			
+			cyw43439_bt: bluetooth {
+				compatible = "infineon,cyw43439-bt";
+				status = "disabled";
+			};
+		};
+	};
+};
+
+/ {
+	aliases {
+		led0 = &cyw43439_led;
+	};
+};

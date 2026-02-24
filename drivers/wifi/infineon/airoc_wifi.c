@@ -84,15 +84,35 @@ static struct airoc_wifi_config airoc_wifi_config = {
 #if defined(CONFIG_AIROC_WIFI_BUS_SDIO)
 	.bus_dev.bus_sdio = DEVICE_DT_GET(DT_INST_PARENT(0)),
 #elif defined(CONFIG_AIROC_WIFI_BUS_SPI)
+	/* When using MFD, get SPI from parent with fixed operation mode */
+#if defined(CONFIG_MFD_CYW43439)
+	.bus_dev.bus_spi = {
+		.bus = DEVICE_DT_GET(DT_BUS(DT_PARENT(DT_DRV_INST(0)))),
+		.config = {
+			.frequency = DT_PROP(DT_PARENT(DT_DRV_INST(0)), spi_max_frequency),
+			.operation = SPI_WORD_SET(8) | SPI_TRANSFER_MSB | SPI_HALF_DUPLEX | SPI_OP_MODE_MASTER,
+			.slave = DT_REG_ADDR(DT_PARENT(DT_DRV_INST(0))),
+		},
+	},
+	.bus_select_gpio = GPIO_DT_SPEC_GET_OR(DT_PARENT(DT_DRV_INST(0)), bus_select_gpios, {0}),
+#else
 	.bus_dev.bus_spi = SPI_DT_SPEC_GET(DT_DRV_INST(0), AIROC_WIFI_SPI_OPERATION),
 	.bus_select_gpio = GPIO_DT_SPEC_GET_OR(DT_DRV_INST(0), bus_select_gpios, {0}),
+#endif
 #if defined(SPI_DATA_IRQ_SHARED)
 	.pcfg = PINCTRL_DT_INST_DEV_CONFIG_GET(0),
 #endif
 #endif
+#if defined(CONFIG_MFD_CYW43439)
+	/* Get GPIOs from MFD parent */
+	.wifi_reg_on_gpio = GPIO_DT_SPEC_GET_OR(DT_PARENT(DT_DRV_INST(0)), wifi_reg_on_gpios, {0}),
+	.wifi_host_wake_gpio = GPIO_DT_SPEC_GET_OR(DT_PARENT(DT_DRV_INST(0)), wifi_host_wake_gpios, {0}),
+	.wifi_dev_wake_gpio = GPIO_DT_SPEC_GET_OR(DT_PARENT(DT_DRV_INST(0)), wifi_dev_wake_gpios, {0}),
+#else
 	.wifi_reg_on_gpio = GPIO_DT_SPEC_GET_OR(DT_DRV_INST(0), wifi_reg_on_gpios, {0}),
 	.wifi_host_wake_gpio = GPIO_DT_SPEC_GET_OR(DT_DRV_INST(0), wifi_host_wake_gpios, {0}),
 	.wifi_dev_wake_gpio = GPIO_DT_SPEC_GET_OR(DT_DRV_INST(0), wifi_dev_wake_gpios, {0}),
+#endif
 };
 
 static whd_buffer_funcs_t airoc_wifi_buffer_if_default = {

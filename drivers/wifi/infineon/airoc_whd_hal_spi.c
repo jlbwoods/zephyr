@@ -60,10 +60,13 @@ int airoc_wifi_init_primary(const struct device *dev, whd_interface_t *interface
 	/* Pull bus select line low before enabling WiFi chip */
 	gpio_pin_configure_dt(&config->bus_select_gpio, GPIO_OUTPUT_INACTIVE);
 
+#ifndef CONFIG_MFD_CYW43439
+	/* Skip power-on when using MFD (MFD parent handles it) */
 	if (airoc_wifi_power_on(dev)) {
 		LOG_ERR("airoc_wifi_power_on returns fail");
 		return -ENODEV;
 	}
+#endif
 
 	if (!spi_is_ready_dt(&config->bus_dev.bus_spi)) {
 		LOG_ERR("SPI device is not ready");
@@ -91,9 +94,10 @@ int airoc_wifi_init_primary(const struct device *dev, whd_interface_t *interface
 
 /*
  * Implement SPI Transfer wrapper
+ * Made weak so MFD wrapper can override it
  */
 
-whd_result_t whd_bus_spi_transfer(whd_driver_t whd_driver, const uint8_t *tx, size_t tx_length,
+__weak whd_result_t whd_bus_spi_transfer(whd_driver_t whd_driver, const uint8_t *tx, size_t tx_length,
 				  uint8_t *rx, size_t rx_length, uint8_t write_fill)
 {
 	const struct spi_dt_spec *spi_obj = whd_driver->bus_priv->spi_obj;

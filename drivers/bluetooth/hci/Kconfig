@@ -375,3 +375,10 @@ config BT_SF32LB
 	select USE_SIFLI_HAL
 	help
 	  Bluetooth HCI over ipc mailbox in SiFli SF32LB chipsets.
+
+config BT_CYW43439
+	bool "Infineon CYW43439 Bluetooth HCI driver"
+	depends on BT_HCI
+	help
+	  Bluetooth HCI driver for Infineon CYW43439 chip.
+	  Used on Raspberry Pi Pico W and Pico 2 W boards.

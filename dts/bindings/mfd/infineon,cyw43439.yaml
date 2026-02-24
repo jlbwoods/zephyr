@@ -1,0 +1,23 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+description: Infineon CYW43439 WiFi/Bluetooth MFD
+
+compatible: "infineon,cyw43439"
+
+include: [spi-device.yaml, pinctrl-device.yaml]
+
+bus: cyw43439
+
+properties:
+  wifi-reg-on-gpios:
+    type: phandle-array
+    description: GPIO to control chip power (WL_REG_ON)
+
+  wifi-host-wake-gpios:
+    type: phandle-array
+    description: GPIO for host wake interrupt
+
+  bus-select-gpios:
+    type: phandle-array
+    description: GPIO for bus selection (shared with data IRQ)

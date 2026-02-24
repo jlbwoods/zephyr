@@ -4,7 +4,7 @@
 
 menuconfig WIFI_AIROC
 	bool "Infineon AIROC SoC Wi-Fi support"
-	depends on DT_HAS_INFINEON_AIROC_WIFI_ENABLED
+	depends on DT_HAS_INFINEON_AIROC_WIFI_ENABLED || DT_HAS_INFINEON_CYW43439_WIFI_ENABLED
 	default y
 	select THREAD_CUSTOM_DATA
 	select WIFI_OFFLOAD
@@ -30,7 +30,8 @@ config AIROC_WIFI_BUS_SDIO
 config AIROC_WIFI_BUS_SPI
 	bool
 	default y
-	depends on $(dt_compat_on_bus,$(DT_COMPAT_INFINEON_AIROC_WIFI),spi)
+	depends on $(dt_compat_on_bus,$(DT_COMPAT_INFINEON_AIROC_WIFI),spi) || \
+		   (DT_HAS_INFINEON_CYW43439_ENABLED && DT_HAS_INFINEON_AIROC_WIFI_ENABLED)
 	select SPI
 	help
 	  Enable SPI bus support

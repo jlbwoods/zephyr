@@ -1,0 +1,13 @@
+# Copyright (c) 2026 Beechwoods Software
+# SPDX-License-Identifier: Apache-2.0
+
+config BT_CYW43439
+	bool "Infineon CYW43439 Bluetooth HCI driver"
+	default y
+	depends on DT_HAS_INFINEON_CYW43439_BT_ENABLED
+	depends on MFD_CYW43439
+	depends on BT_HCI
+	select BT_HCI_RAW
+	help
+	  Bluetooth HCI driver for Infineon CYW43439 chip.
+	  Used on Raspberry Pi Pico W and Pico 2 W boards.

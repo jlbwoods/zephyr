@@ -1,0 +1,54 @@
+/*
+ * Example device tree overlay for Pico W with MFD driver
+ * Copyright (c) 2026 Beechwoods Software
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&pio0_spi0 {
+	cyw43439: cyw43439@0 {
+		compatible = "infineon,cyw43439";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		wifi-reg-on-gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+		wifi-host-wake-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		bus-select-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		
+		/* WiFi child device */
+		wifi {
+			compatible = "infineon,cyw43439-wifi";
+			status = "okay";
+		};
+		
+		/* LED child device - onboard LED on CYW43 GPIO0 */
+		led {
+			compatible = "infineon,cyw43439-led";
+			gpios = <0>;
+			status = "okay";
+		};
+		
+		/* Bluetooth child device (future) */
+		bluetooth {
+			compatible = "infineon,cyw43439-bt";
+			status = "disabled";
+		};
+	};
+};
+
+/* Remove old LED definition */
+/ {
+	leds {
+		/delete-node/ led_0;
+	};
+	
+	aliases {
+		/delete-property/ led0;
+		led0 = &cyw43439_led;
+	};
+};
+
+&cyw43439 {
+	led: cyw43439_led {
+		compatible = "infineon,cyw43439-led";
+		gpios = <0>;
+	};
+};
